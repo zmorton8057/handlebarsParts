@@ -13,15 +13,28 @@
     
     <script id="the-template" type="text/x-handlebars-template">
     
+        <!-- Creates radio buttons for each -->
         {{#makeRadio "size"}}
             Small
             Medium 
             Large
+            X-Large
+            Smedium
         {{/makeRadio}}
     
+        <!-- Checks if two numbers are equal returns a string to the DOM -->
+        {{#areEqual 1 2}}
+            Numbers Are Equal
+            {{else}}
+            Numbers Are not Equal
+        {{/areEqual}}
 
-
-
+        <!-- "isActive toggles between the two options" -->
+        {{#if "isActive"}}
+            <p>I am Active</p>
+            {{else}}
+            <p>I am not active</p>
+        {{/if}}
     </script>
 
     <script type="text/javascript">
@@ -38,9 +51,25 @@
 
             for(var val in radioList){
                 var item = radioList[val].trim();
-                output += '<input type="radio" name="' + name + 'value="' + item + '">' + item + '<br />'
+                output += '<input type="radio" name="' + name + '" value="' + item + '">' + item + '<br />'
             }
             return output;
+        })
+
+        Handlebars.registerHelper("areEqual", function(num1, num2, options) {
+            if (num1 === num2) {
+                return options.fn(this);
+            } else {
+                return options.inverse(this);
+            }
+        })
+
+        Handlebars.registerHelper("if", function(data, options){
+            if (data === "isActive"){
+                return options.fn(this);
+            } else {
+                return options.inverse(this);
+            }
         })
 
         var templateData = template({})
