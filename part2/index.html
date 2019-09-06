@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hello Handlebars</title>
+    <script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
+</head>
+
+<body>
+
+    <div id="quoteData"></div>
+
+    <script id="quote-template" type="x-handlebars-template">
+
+    <h3>Favorite {{name}} Quotes</h3>
+    <ol>
+        {{#each quotes}}
+            <li>{{quote}}
+        {{/each}}
+    </ol>
+
+    {{{yogiBio}}}<br /><br />
+
+    {{makeLink "Yogi Berra Museum" "https://en.wikipedia.org/wiki/Yogi_Berra"}}<br /><br />
+
+    {{changeColor "Make my text red" color="blue"}}<br />
+
+    </script>
+
+    <script type="text/javascript">
+        ///// this is grabbing from script id above
+        var quoteInfo = document.getElementById("quote-template").innerHTML;
+
+        ////HelperClass makes the registerHelper makes a link and an anonymous function
+        Handlebars.registerHelper("makeLink", function(text, url){
+            ///// escapeExpression applies safety net against code injection
+            text = Handlebars.Utils.escapeExpression(text);
+            url = Handlebars.Utils.escapeExpression(url);
+            ///// construct the string and pass in the text and url
+            var theLink = '<a href="' + url + '">' + text + '</a>'
+            /// this returns the new Link that was constructed from above
+            return new Handlebars.SafeString(theLink)
+        })
+        //// 
+        var template = Handlebars.compile(quoteInfo);
+
+        var quoteData = template({
+            name: "Yogi Berra",
+            quotes: [
+                { quote: "When you come to a fork in the road, take it." },
+                { quote: "You can observe a lot by just watching." },
+                { quote: "It ain't ova, til it's ova." },
+                { quote: "It’s like déjà vu all over again." },
+                { quote: "No one goes there nowadays, it’s too crowded." }
+            ],
+            yogiBio: "<i>Lawrence Peter 'Yogi' Berra was an American professional baseball catcher, who later took on the roles of manager and coach. He played 19 seasons in Major League Baseball, all but the last for the New York Yankees.</i>"
+        });
+
+      
+
+        document.getElementById("quoteData").innerHTML += quoteData
+
+    </script>
+</body>
+
+</html>

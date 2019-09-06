@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hello Handlebars</title>
+    <script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
+</head>
+<body>
+    
+    <div id="zacData"></div>
+
+    <script type="text/javascript">
+    
+    
+    
+    var myInfo = "<p>My name is {{name}} and I live at {{street}} in {{city}}, {{State}}</p>";
+
+    var template = Handlebars.compile(myInfo);
+
+    var data = template({name: "Zac", street: "123 Main St", city: "Pittsburgh", state: "PA"});
+    
+    document.getElementById("zacData").innerHTML += data;
+    
+    
+    </script>
+</body>
+</html>
