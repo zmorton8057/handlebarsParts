@@ -6,6 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hello Handlebars</title>
+    <style type="text/css">
+        .redText {
+            color: red;
+        }
+
+        .blueText {
+            color: blue;
+        }
+
+        .greenText {
+            color: green;
+        }
+    </style>
     <script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
 </head>
 
@@ -26,7 +39,10 @@
 
     {{makeLink "Yogi Berra Museum" "https://en.wikipedia.org/wiki/Yogi_Berra"}}<br /><br />
 
-    {{changeColor "Make my text red" color="blue"}}<br />
+    {{changeColor "Make my text red" color="green"}}<br />
+
+    {{sayHello}}
+
 
     </script>
 
@@ -35,7 +51,7 @@
         var quoteInfo = document.getElementById("quote-template").innerHTML;
 
         ////HelperClass makes the registerHelper makes a link and an anonymous function
-        Handlebars.registerHelper("makeLink", function(text, url){
+        Handlebars.registerHelper("makeLink", function (text, url) {
             ///// escapeExpression applies safety net against code injection
             text = Handlebars.Utils.escapeExpression(text);
             url = Handlebars.Utils.escapeExpression(url);
@@ -44,7 +60,32 @@
             /// this returns the new Link that was constructed from above
             return new Handlebars.SafeString(theLink)
         })
-        //// 
+
+        Handlebars.registerHelper("changeColor", function (text, options) {
+            text = Handlebars.Utils.escapeExpression(text);
+
+            if (options.hash.color === "red") {
+                return new Handlebars.SafeString('<span class="redText">' + text + '</span>')
+            } else if (options.hash.color === "blue") {
+                return new Handlebars.SafeString('<span class="blueText">' + text + '</span>')
+            } else {
+                return new Handlebars.SafeString('<span class="greenText">' + text + '</span>')
+            }
+        });
+
+        Handlebars.registerHelper("sayHello", function (options) {
+            switch (options.data.lang) {
+                case "spanish": 
+                    return "Hola";
+                    break;
+                case "french": 
+                    return "Bonjour";
+                    break;
+                default:
+                    return "Hello";
+            }
+        })
+
         var template = Handlebars.compile(quoteInfo);
 
         var quoteData = template({
@@ -57,9 +98,13 @@
                 { quote: "No one goes there nowadays, it’s too crowded." }
             ],
             yogiBio: "<i>Lawrence Peter 'Yogi' Berra was an American professional baseball catcher, who later took on the roles of manager and coach. He played 19 seasons in Major League Baseball, all but the last for the New York Yankees.</i>"
+        }, {
+            data: {
+                lang: "french"
+            }
         });
 
-      
+
 
         document.getElementById("quoteData").innerHTML += quoteData
 
