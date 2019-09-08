@@ -12,7 +12,7 @@
 
         <script id="the-template" type="text/x-handlebars-template">
         
-        
+        {{> myName}}
         
         
         </script>
@@ -23,17 +23,14 @@
         
         var template = Handlebars.compile(templateInfo);
 
-        Handlebars.registerHelper('with', function(context, options){
-            return options.fn(context)
-        });
-
         var templateData = template({
-            title: "Harry Potter and the Philosopher's Stone",
-            techData: {
-                isbn: "0-7475-3269-9",
-                author: "J.K. Rowling"
-            }
-        });
+            name: "Zac",
+            author: "Eric Malvar",
+            comment: "Where should we vacation?",
+            comments: [{
+                
+            }]
+        })
 
         document.getElementById('contentDiv').innerHTML += templateData
         
